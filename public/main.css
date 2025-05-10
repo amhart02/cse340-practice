@@ -1,3 +1,62 @@
 html, body {
-    background-color: lightblue;
+    background-color: pink;
+}
+ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    border-bottom: solid white 3px;
+    padding-bottom: 10px;
+}
+li {
+    list-style-type: none;
+}
+li a {
+    list-style-type: none;
+    color: white;
+    font-size: 30px;
+    font-weight: 800;
+    font-family:'Times New Roman', Times, serif;
+    text-decoration: none;
+}
+h1 {
+    color: white;
+    font-size: 25px;
+    font-weight: 700;
+    font-family:'Times New Roman', Times, serif;
+    text-align: center;
+}
+img {
+    width: 300px;
+    display: block;
+    margin: 0 auto;
+}
+.view-toggle {
+    color: white;
+    font-size: 25px;
+    font-weight: 700;
+    font-family:'Times New Roman', Times, serif;
+    text-align: center;
+    margin: 30px;
+}
+.view-toggle a {
+    color: white;
+    text-decoration: none;
+}
+.products-container {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    justify-content: space-around;
+}
+footer {
+    color: white;
+    font-family:'Times New Roman', Times, serif;
+    text-align: center;
+}
+.product-card {
+    background-color: white;
+    max-width: 350px;
+    padding: 10px;
+    border-radius: 10px;
 }

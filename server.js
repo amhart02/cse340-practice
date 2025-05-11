@@ -134,8 +134,7 @@ app.get('/', (req, res) => {
 
 app.get('/about', (req, res) => {
     const title = 'About Page';
-    const url = '/image/hamstermeme.webp'
-    res.render('about', { title, imageUrl : url, NODE_ENV })
+    res.render('about', { title, NODE_ENV })
 });
 
 app.get('/contact', (req, res) => {

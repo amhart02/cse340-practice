@@ -25,15 +25,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 /**
  * Middleware Functions 
  */
- 
+
 // app.use((req, res, next) => {
 //     console.log(`Method: ${req.method}, URL: ${req.url}`);
 //     next(); // Pass control to the next middleware or route
 // });
 
 app.use((req, res, next) => {
-  res.locals.NODE_ENV = NODE_ENV;
-  next();
+    res.locals.NODE_ENV = NODE_ENV;
+    next();
 });
 
 // Set the views directory (where your templates are located)
@@ -43,6 +43,8 @@ app.set('views', path.join(__dirname, 'src/views'));
 app.use((req, res, next) => {
     // Get the current year for copyright notice
     res.locals.currentYear = new Date().getFullYear();
+
+    res.locals.NODE_ENV = process.env.NODE_ENV || 'development';
     next();
 });
 
@@ -78,24 +80,6 @@ app.use((req, res, next) => {
     next();
 });
 
-// Sample product data
-const products = [
-    {
-        id: 1,
-        name: "Kindle E-Reader",
-        description: "Lightweight e-reader with a glare-free display and weeks of battery life.",
-        price: 149.99,
-        image: "https://picsum.photos/id/367/800/600"
-    },
-    {
-        id: 2,
-        name: "Vintage Film Camera",
-        description: "Capture timeless moments with this classic vintage film camera, perfect for photography enthusiasts.",
-        price: 199.99,
-        image: "https://picsum.photos/id/250/800/600"
-    }
-];
-
 // Middleware to validate display parameter
 const validateDisplayMode = (req, res, next) => {
     const { display } = req.params;
@@ -129,23 +113,42 @@ app.use((req, res, next) => {
 app.get('/', (req, res) => {
     const title = 'Home Page';
     const content = '<h1>Welcome to the Home Page</h1><p>This is the main content of the home page.</p>';
-    res.render('index', { title, content, NODE_ENV })
+    res.render('index', { title, content})
 });
 
 app.get('/about', (req, res) => {
     const title = 'About Page';
-    res.render('about', { title, NODE_ENV })
+    res.render('about', { title})
 });
 
 app.get('/contact', (req, res) => {
     const title = 'Contact Page';
-    res.render('contact', { title, NODE_ENV })
+    res.render('contact', { title })
 });
 
 // Products page route with display mode validation
 app.get('/products/:display', validateDisplayMode, (req, res) => {
     const title = "Our Products";
     const { display } = req.params;
+ 
+    // Sample product data
+    const products = [
+        {
+            id: 1,
+            name: "Kindle E-Reader",
+            description: "Lightweight e-reader with a glare-free display and weeks of battery life.",
+            price: 149.99,
+            image: "https://picsum.photos/id/367/800/600"
+        },
+        {
+            id: 2,
+            name: "Vintage Film Camera",
+            description: "Capture timeless moments with this classic vintage film camera, perfect for photography enthusiasts.",
+            price: 199.99,
+            image: "https://picsum.photos/id/250/800/600"
+        }
+    ];
+ 
     res.render('products', { title, products, display });
 });
  
@@ -171,7 +174,7 @@ app.get('/explore/:category/:id', (req, res) => {
     const title = `Exploring ${category}`;
  
     // Render the template with all parameters
-    res.render('explore', { title, category, id, sort, filter, NODE_ENV });
+    res.render('explore', { title, category, id, sort, filter});
 });
 
 /**

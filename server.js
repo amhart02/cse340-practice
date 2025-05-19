@@ -3,7 +3,7 @@ import express from 'express';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import indexRoutes from './src/routes/index.js';
-import exploreRoutes from './src/routes/explore/index.js'
+import productRoutes from './src/routes/product/index.js'
 
 import { addGlobalData } from './src/middleware/index.js'
 
@@ -28,7 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(addGlobalData)
 
 app.use('/', indexRoutes);
-app.use('/', exploreRoutes);
+app.use('/product', productRoutes);
 
 app.use((req, res, next) => {
     res.locals.NODE_ENV = NODE_ENV;
@@ -65,7 +65,6 @@ app.use((err, req, res, next) => {
     // Render the appropriate template based on status code
     res.status(status).render(`errors/${status === 404 ? '404' : '500'}`, context);
 });
-
 
 // When in development mode, start a WebSocket server for live reloading
 if (NODE_ENV.includes('dev')) {

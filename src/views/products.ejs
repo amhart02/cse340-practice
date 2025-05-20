@@ -27,19 +27,5 @@
         <a href="/products/grid" class="<%= display === 'grid' ? 'active' : '' %>">Grid View</a> | 
         <a href="/products/details" class="<%= display === 'details' ? 'active' : '' %>">Details View</a>
     </div>
-    <p class="timestamp">Last updated: <%= timestamp %></p>
- 
-<!--
-    Since this is a temporary example for the timestamp, we will place the CSS here.
-    In a real application, you would want to place this in your main CSS file.
--->
-<style>
-    .timestamp {
-        font-size: 0.8rem;
-        color: #999;
-        text-align: center;
-        margin-top: 2rem;
-    }
-</style>
 </main>
 <%- include('partials/footer') %>

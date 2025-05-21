@@ -55,30 +55,30 @@ app.use((req, res, next) => {
 });
 
 // Global middleware to measure request processing time
-app.use((req, res, next) => {
-    // Record the time when the request started
-    const start = Date.now();
+// app.use((req, res, next) => {
+//     // Record the time when the request started
+//     const start = Date.now();
  
-    /**
-     * The `res` object has built-in event listeners we can use to trigger
-     * actions at different points in the request/response lifecycle.
-     * 
-     * We will use the 'finish' event to detect when the response has been
-     * sent to the client, and then calculate the time taken to process
-     * the entire request.
-     */
-    res.on('finish', () => {
-        // Calculate how much time has passed since the request started
-        const end = Date.now();
-        const processingTime = end - start;
+//     /**
+//      * The `res` object has built-in event listeners we can use to trigger
+//      * actions at different points in the request/response lifecycle.
+//      * 
+//      * We will use the 'finish' event to detect when the response has been
+//      * sent to the client, and then calculate the time taken to process
+//      * the entire request.
+//      */
+//     res.on('finish', () => {
+//         // Calculate how much time has passed since the request started
+//         const end = Date.now();
+//         const processingTime = end - start;
  
-        // Log the results to the console
-        console.log(`${req.method} ${req.url} - Processing time: ${processingTime}ms`);
-    });
+//         // Log the results to the console
+//         console.log(`${req.method} ${req.url} - Processing time: ${processingTime}ms`);
+//     });
  
-    // Don't forget to call next() to continue to the next middleware
-    next();
-});
+//     // Don't forget to call next() to continue to the next middleware
+//     next();
+// });
 
 // Middleware to validate display parameter
 const validateDisplayMode = (req, res, next) => {

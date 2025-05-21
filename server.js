@@ -11,7 +11,7 @@ import exploreRoutes from './src/routes/explore/index.js';
  
 // Import global middleware
 import router, { addGlobalData } from './src/middleware/index.js';
- 
+
 
 // Create an instance of an Express application
 const app = express();
@@ -44,6 +44,14 @@ app.use(router);
  */
 app.use('/', indexRoutes);
 app.use('/explore', exploreRoutes);
+
+app.get('/error', (req, res, next) => {
+  // Throw an error
+  console.log('💥 /error route hit');
+  const err = new Error('This is a test server error');
+  err.status = 500;
+  next(err);  // Pass error to Express error handler
+});
 
 /**
  * Error Handling Middleware

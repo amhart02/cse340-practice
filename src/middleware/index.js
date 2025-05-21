@@ -37,14 +37,15 @@ export const addGlobalData = (req, res, next) => {
  */
 
 router.use((req, res, next) => {
-    console.log(`Method: ${req.method}, URL: ${req.url}`);
-    next(); // Pass control to the next middleware or route
-});
-
-router.use((req, res, next) => {
-    res.locals.NODE_ENV = process.env.NODE_ENV;
+    res.locals.NODE_ENV = process.env.NODE_ENV || 'development';
     next();
 });
+
+// router.use((req, res, next) => {
+//     console.log(`Method: ${req.method}, URL: ${req.url}`);
+//     next(); // Pass control to the next middleware or route
+// });
+
 
 // Global middleware to set a custom header
 router.use((req, res, next) => {

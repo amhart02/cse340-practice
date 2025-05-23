@@ -26,15 +26,15 @@ const products = [
     }
 ];
  
-// Middleware to validate display parameter
-const validateDisplayMode = (req, res, next) => {
-    const { display } = req.params;
-    if (display !== 'grid' && display !== 'details') {
-        const error = new Error('Invalid display mode: must be either "grid" or "details".');
-        next(error); // Pass control to the error-handling middleware
-    }
-    next(); // Pass control to the next middleware or route
-};
+// // Middleware to validate display parameter
+// const validateDisplayMode = (req, res, next) => {
+//     const { display } = req.params;
+//     if (display !== 'grid' && display !== 'details') {
+//         const error = new Error('Invalid display mode: must be either "grid" or "details".');
+//         next(error); // Pass control to the error-handling middleware
+//     }
+//     next(); // Pass control to the next middleware or route
+// };
  
 // Define a route handler for the root URL ('/')
 router.get('/', (req, res) => {
@@ -45,19 +45,19 @@ router.get('/', (req, res) => {
  
 router.get('/about', (req, res) => {
     const title = 'About Page';
-    res.render('about', { title})
+    res.render('about', { title })
 });
  
-// Default products route (redirects to grid view)
-router.get('/products', (req, res) => {
-    res.redirect('/products/grid');
-});
+// // Default products route (redirects to grid view)
+// router.get('/products', (req, res) => {
+//     res.redirect('/products/grid');
+// });
  
-// Products page route with display mode validation
-router.get('/products/:display', validateDisplayMode, (req, res) => {
-    const title = "Our Products";
-    const { display } = req.params;
-    res.render('products', { title, products, display });
-});
+// // Products page route with display mode validation
+// router.get('/products/:display', validateDisplayMode, (req, res) => {
+//     const title = "Our Products";
+//     const { display } = req.params;
+//     res.render('products', { title, products, display });
+// });
  
 export default router;

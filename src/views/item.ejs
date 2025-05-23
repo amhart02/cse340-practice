@@ -1,0 +1,15 @@
+<%- include('partials/header') %>
+<main>
+    <h1><%= title %></h1>
+
+    <div class="product-card">
+        <img src="<%= item.image %>" alt="<%= item.name %>" class="product-image">
+        <div class="product-info">
+            <p class="product-description"><%= item.description %></p>
+            <p class="product-price">$<%= item.price.toFixed(2) %></p>
+        </div>
+    </div>
+
+    <a href="/products/<%= categoryId %>">← Back to Category</a>
+</main>
+<%- include('partials/footer') %>

@@ -7,7 +7,7 @@ import path from 'path';
 
 // Import route handlers from their new locations
 import indexRoutes from './src/routes/index.js';
-import exploreRoutes from './src/routes/explore/index.js';
+import productRoutes from './src/routes/products/index.js';
  
 // Import global middleware
 import router, { addGlobalData } from './src/middleware/index.js';
@@ -43,7 +43,7 @@ app.use(router);
  * Routes
  */
 app.use('/', indexRoutes);
-app.use('/explore', exploreRoutes);
+app.use('/products', productRoutes);
 
 app.get('/error', (req, res, next) => {
   // Throw an error

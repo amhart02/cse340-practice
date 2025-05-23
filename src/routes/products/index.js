@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getAllCategories, getCategory, getCategoryItems, getRandomProduct } from '../../models/explore-data.js';
+import { getAllCategories, getCategory, getCategoryItems, getRandomProduct, getItem} from '../../models/products-data.js';
  
 const router = Router();
  
@@ -12,12 +12,26 @@ const router = Router();
 // Route for /explore - redirects to a random category
 router.get('/', async (req, res) => {
     const randomProduct = await getRandomProduct();
-    res.redirect(`/explore/${randomProduct.category}`);
+    res.redirect(`/products/${randomProduct.category}`);
 });
- 
+
+// Redirect item routes to category page
+router.get('/item/:id', async (req, res) => {
+    const { category, id } = req.params;
+    console.log('Requested categoryId:', category);
+
+    const item = await getItem(category, id);
+
+    res.render('item', {
+        title: item.name,
+        item,
+        categoryId: category
+    })
+});
+
 // Route for viewing a category and its items
 router.get('/:category', async (req, res) => {
-    const { category } = req.params;
+    const { category, display } = req.params;
  
     // Use model to get category data
     const categoryData = await getCategory(category);
@@ -39,19 +53,14 @@ router.get('/:category', async (req, res) => {
     const items = await getCategoryItems(category);
  
     // Render the explore template with category and items
-    res.render('explore', { 
+    res.render('products', { 
         title: `Exploring ${categoryData.name}`,
         categoryId: category,
         categoryName: categoryData.name,
         categoryDescription: categoryData.description,
-        items: items
+        items: items,
+        display: display,
     });
 });
- 
-// Redirect item routes to category page
-router.get('/:category/:id', async (req, res) => {
-    const { category } = req.params;
-    res.redirect(`/explore/${category}`);
-});
- 
+
 export default router;

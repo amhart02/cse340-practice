@@ -16,9 +16,9 @@
  
         // Create WebSocket connection using dynamic hostname and port
         const ws = new WebSocket(`ws://${host}:${wsPort}`);
-        ws.onclose = () => {
-            setTimeout(() => location.reload(), 2000);
-        };
+        // ws.onclose = () => {
+        //     setTimeout(() => location.reload(), 2000);
+        // };
     </script>
 <% } %>
 </head>
@@ -28,8 +28,10 @@
             <ul>
                 <li><a href="/">Home</a></li>
                 <li><a href="/about">About</a></li>
-                <li><a href="/contact">Contact</a></li>
-                <li><a href="/explore/games/123">Explore</a></li>
+                <li><a href="/products/accessories">Accessories</a></li>
+                <li><a href="/products/mens">Men's Clothing</a></li>
+                <li><a href="/products/shoes">Shoes</a></li>
+                <li><a href="/products/womens">Women's Clothing</a></li>
             </ul>
         </nav>
     </header>

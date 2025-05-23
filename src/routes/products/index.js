@@ -16,7 +16,7 @@ router.get('/', async (req, res) => {
 });
 
 // Redirect item routes to category page
-router.get('/item/:id', async (req, res) => {
+router.get('/:category/:id', async (req, res) => {
     const { category, id } = req.params;
     console.log('Requested categoryId:', category);
 

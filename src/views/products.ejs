@@ -15,7 +15,7 @@
             <div class="product-card">
                 <img src="<%= product.image %>" alt="<%= product.name %>" class="product-image">
                 <div class="product-info">
-                    <h2 class="product-name"><a href="/products/item/:<%= productId %>"><%= product.name %></a></h2> 
+                    <h2 class="product-name"><a href="/products/<%= categoryId %>/<%= productId %>"><%= product.name %></a></h2> 
                     <p class="product-description"><%= product.description %></p>
                     <p class="product-price">$<%= product.price.toFixed(2) %></p>
                 </div>

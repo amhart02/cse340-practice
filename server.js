@@ -8,9 +8,10 @@ import path from 'path';
 // Import route handlers from their new locations
 import indexRoutes from './src/routes/index.js';
 import productRoutes from './src/routes/products/index.js';
+import { setupDatabase, testConnection } from './src/models/setup.js';
  
 // Import global middleware
-import router, { addGlobalData } from './src/middleware/index.js';
+import { addGlobalData } from './src/middleware/index.js';
 
 
 // Create an instance of an Express application
@@ -23,6 +24,9 @@ const PORT = process.env.PORT || 3000;
 // Create __dirname and __filename variables
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+ 
+// Add this after your other middleware (static files, etc.)
+app.use(addGlobalData);
 
 // Set the view engine to EJS
 app.set('view engine', 'ejs');
@@ -37,7 +41,6 @@ app.use(express.static(path.join(__dirname, 'public')));
  * Middleware
  */
 app.use(addGlobalData);
-app.use(router);
 
 /**
  * Routes
@@ -57,11 +60,25 @@ app.get('/error', (req, res, next) => {
  * Error Handling Middleware
  */
 
-// Catch-all middleware for unmatched routes (404)
+// 404 Error Handler
 app.use((req, res, next) => {
+    // Ignore error forwarding for expected missing assets
+    const quiet404s = [
+        '/favicon.ico',
+        '/robots.txt'
+    ];
+
+    // Also skip any paths under /.well-known/
+    const isQuiet404 = quiet404s.includes(req.path) || req.path.startsWith('/.well-known/');
+
+    if (isQuiet404) {
+        return res.status(404).send('Not Found');
+    }
+
+    // For all other routes, forward to the global error handler
     const err = new Error('Page Not Found');
     err.status = 404;
-    next(err); // Forward to the global error handler
+    next(err);
 });
 
 // Global error handler middleware
@@ -105,6 +122,13 @@ if (NODE_ENV.includes('dev')) {
 }
 
 // Start the server and listen on the specified port
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
+    try {
+        await testConnection();
+        await setupDatabase();
+    } catch (error) {
+        console.error('Database setup failed:', error);
+        process.exit(1);
+    }
     console.log(`Server is running on http://127.0.0.1:${PORT}`);
 });

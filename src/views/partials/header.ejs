@@ -6,21 +6,16 @@
     <title><%= title %></title>
     <link rel="stylesheet" href="/css/main.css">
     <% if (NODE_ENV.includes('dev')) { %>
-    <script>
-        // Get the current hostname and port from the browser
-        const host = window.location.hostname;
-        const currentPort = window.location.port;
- 
-        // Calculate WebSocket port (current port + 1)
-        const wsPort = currentPort ? (parseInt(currentPort) + 1) : 3001;
- 
-        // Create WebSocket connection using dynamic hostname and port
-        const ws = new WebSocket(`ws://${host}:${wsPort}`);
-        // ws.onclose = () => {
-        //     setTimeout(() => location.reload(), 2000);
-        // };
-    </script>
-<% } %>
+        <script>
+            const host = window.location.hostname;
+            const currentPort = window.location.port;
+            const wsPort = currentPort ? (parseInt(currentPort) + 1) : 3001;
+            const ws = new WebSocket(`ws://${host}:${wsPort}`);
+            ws.onclose = () => {
+                setTimeout(() => location.reload(), 2000);
+            };
+        </script>
+    <% } %>
 </head>
 <body>
     <header>
@@ -28,10 +23,11 @@
             <ul>
                 <li><a href="/">Home</a></li>
                 <li><a href="/about">About</a></li>
-                <li><a href="/products/accessories">Accessories</a></li>
-                <li><a href="/products/mens">Men's Clothing</a></li>
-                <li><a href="/products/shoes">Shoes</a></li>
-                <li><a href="/products/womens">Women's Clothing</a></li>
+                <% navigationCategories.forEach((category) => { %>
+                    <li>
+                        <a href="/products/<%= category.slug %>"><%= category.name %></a>
+                    </li>
+                <% }); %>
             </ul>
         </nav>
     </header>

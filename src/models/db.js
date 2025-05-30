@@ -12,8 +12,12 @@ import { Pool } from 'pg';
  * postgresql://username:password@host:port/database
  */
 const pool = new Pool({
-    connectionString: process.env.DB_URL,
-    ssl: false // Set to true if your database requires SSL connections
+    host: '143.198.247.195',         // IP address of the DB
+    port: 5432,                      // default PostgreSQL port
+    user: 'hart89809',               // your DB username
+    password: '824589809',           // your DB password
+    database: 'hart89809',           // your DB name
+    ssl: false                       // set to false for self-signed certs
 });
  
 /**

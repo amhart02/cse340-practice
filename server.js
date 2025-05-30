@@ -8,6 +8,7 @@ import path from 'path';
 // Import route handlers from their new locations
 import indexRoutes from './src/routes/index.js';
 import productRoutes from './src/routes/products/index.js';
+import test from './src/routes/test.js';
 import { setupDatabase, testConnection } from './src/models/setup.js';
  
 // Import global middleware
@@ -37,6 +38,9 @@ app.set('views', path.join(__dirname, 'src/views'));
 // Serve static files from the public directory
 app.use(express.static(path.join(__dirname, 'public')));
 
+// added during test
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
 /**
  * Middleware
  */
@@ -47,6 +51,7 @@ app.use(addGlobalData);
  */
 app.use('/', indexRoutes);
 app.use('/products', productRoutes);
+app.use('/test', test);
 
 app.get('/error', (req, res, next) => {
   // Throw an error

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %></title>
     <link rel="stylesheet" href="/css/main.css">
-    <% if (NODE_ENV.includes('dev')) { %>
+    <!-- <% if (NODE_ENV.includes('dev')) { %>
         <script>
             const host = window.location.hostname;
             const currentPort = window.location.port;
@@ -15,7 +15,7 @@
                 setTimeout(() => location.reload(), 2000);
             };
         </script>
-    <% } %>
+    <% } %> -->
 </head>
 <body>
     <header>
@@ -23,6 +23,7 @@
             <ul>
                 <li><a href="/">Home</a></li>
                 <li><a href="/about">About</a></li>
+                <li><a href="/dashboard">Dashboard</a></li>
                 <% navigationCategories.forEach((category) => { %>
                     <li>
                         <a href="/products/<%= category.slug %>"><%= category.name %></a>

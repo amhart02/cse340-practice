@@ -12,4 +12,14 @@ router.post('/', (req, res) => {
     res.redirect('/test');
 })
 
+router.post('/login', (req, res) => {
+    console.log('You are logged IN.')
+    res.redirect('/test');
+});
+
+router.post('/logout', (req, res) => {
+    console.log('You are logged OUT.')
+    res.redirect('/test');
+});
+
 export default router;

@@ -10,6 +10,9 @@ import indexRoutes from './src/routes/index.js';
 import productRoutes from './src/routes/products/index.js';
 import test from './src/routes/test.js';
 import { setupDatabase, testConnection } from './src/models/setup.js';
+
+// Add this import with your other route imports
+import dashboardRoutes from './src/routes/dashboard/index.js';
  
 // Import global middleware
 import { addGlobalData } from './src/middleware/index.js';
@@ -41,6 +44,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // added during test
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+
 /**
  * Middleware
  */
@@ -52,6 +56,7 @@ app.use(addGlobalData);
 app.use('/', indexRoutes);
 app.use('/products', productRoutes);
 app.use('/test', test);
+app.use('/dashboard', dashboardRoutes);
 
 app.get('/error', (req, res, next) => {
   // Throw an error

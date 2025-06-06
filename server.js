@@ -17,6 +17,12 @@ import dashboardRoutes from './src/routes/dashboard/index.js';
 // Import global middleware
 import { addGlobalData } from './src/middleware/index.js';
 
+import session from 'express-session';
+import pgSession from 'connect-pg-simple';
+import db from './src/models/db.js';
+import accountRoutes from './src/routes/accounts/index.js';
+import flashMessages from './src/middleware/flash.js';
+
 
 // Create an instance of an Express application
 const app = express();
@@ -50,6 +56,30 @@ app.use(express.urlencoded({extended: true}));
  */
 app.use(addGlobalData);
 
+// Configure PostgreSQL session store
+const PostgresStore = pgSession(session);
+ 
+// Configure session middleware
+app.use(session({
+    store: new PostgresStore({
+        pool: db, // Use your PostgreSQL connection
+        tableName: 'sessions', // Table name for storing sessions
+        createTableIfMissing: true // Creates table if it does not exist
+    }),
+    secret: process.env.SESSION_SECRET || "default-secret-change-in-production",
+    resave: false,
+    saveUninitialized: false,
+    name: "sessionId",
+    cookie: {
+        secure: false, // Set to true in production with HTTPS
+        httpOnly: true, // Prevents client-side access to the cookie
+        maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days in milliseconds
+    }
+}));
+
+// Add flash message middleware (after session, before routes)
+app.use(flashMessages);
+
 /**
  * Routes
  */
@@ -57,6 +87,7 @@ app.use('/', indexRoutes);
 app.use('/products', productRoutes);
 app.use('/test', test);
 app.use('/dashboard', dashboardRoutes);
+app.use('/accounts', accountRoutes);
 
 app.get('/error', (req, res, next) => {
   // Throw an error

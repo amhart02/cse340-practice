@@ -7,6 +7,13 @@ const router = express.Router();
  * Dashboard home page - displays navigation to product management features
  */
 router.get('/', async (req, res, next) => {
+        // Add this check at the beginning of each dashboard route
+    if (!req.session.isLoggedIn) {
+        req.flash('error', 'Please log in to access the dashboard');
+        return res.render('accounts/login', {
+            title: 'Login'
+        });
+    }
     try {
         const products = await getAllProducts();
         res.render('dashboard/index', {
@@ -22,6 +29,13 @@ router.get('/', async (req, res, next) => {
  * Display the add product form
  */
 router.get('/add-product', (req, res) => {
+    // Add this check at the beginning of each dashboard route
+    if (!req.session.isLoggedIn) {
+        req.flash('error', 'Please log in to access the dashboard');
+        return res.render('accounts/login', {
+            title: 'Login'
+    });
+}
     res.render('dashboard/add-product', {
         title: 'Add Product',
         errors: null,
@@ -33,6 +47,13 @@ router.get('/add-product', (req, res) => {
  * Process the add product form submission
  */
 router.post('/add-product', async (req, res, next) => {
+    // Add this check at the beginning of each dashboard route
+    if (!req.session.isLoggedIn) {
+        req.flash('error', 'Please log in to access the dashboard');
+        return res.render('accounts/login', {
+        title: 'Login'
+    });
+}
     try {
         // Extract form data
         const { name, description, price, image } = req.body;
@@ -95,6 +116,13 @@ router.post('/add-product', async (req, res, next) => {
  * Display the edit product page (placeholder for future assignment)
  */
 router.get('/edit-product', (req, res) => {
+    // Add this check at the beginning of each dashboard route
+    if (!req.session.isLoggedIn) {
+        req.flash('error', 'Please log in to access the dashboard');
+        return res.render('accounts/login', {
+        title: 'Login'
+    });
+}
     res.render('dashboard/edit-product', {
         title: 'Edit Product'
     });

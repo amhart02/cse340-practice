@@ -1,6 +1,8 @@
 <%- include('../partials/header') %>
 <main>
     <h1>Product Management Dashboard</h1>
+    
+    <%- include('../partials/flash') %>
  
     <% if (typeof req !== 'undefined' && req.query.success) { %>
         <div class="success-message">

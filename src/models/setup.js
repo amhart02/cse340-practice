@@ -40,6 +40,46 @@ const createProductsTable = `
     );
 `;
 
+/**
+ * SQL to create the roles table if it does not exist.
+ * 
+ * This table defines user permission levels:
+ * 0 = Regular user, 1 = Employee, 2 = Management
+ */
+const createRolesTable = `
+CREATE TABLE IF NOT EXISTS roles (
+    id SERIAL PRIMARY KEY,
+    role_name VARCHAR(50) NOT NULL UNIQUE
+);
+`;
+ 
+/**
+ * SQL to insert default roles if they do not exist.
+ */
+const insertDefaultRoles = `
+INSERT INTO roles (id, role_name) VALUES 
+    (0, 'user'),
+    (1, 'employee'), 
+    (2, 'management')
+ON CONFLICT (id) DO NOTHING;
+`;
+ 
+/**
+ * SQL to create the users table if it does not exist.
+ * 
+ * This table stores user account information including email,
+ * hashed password, and role assignment.
+ */
+const createUsersTable = `
+CREATE TABLE IF NOT EXISTS users (
+    id SERIAL PRIMARY KEY,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    role_id INTEGER DEFAULT 0 REFERENCES roles(id),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+`;
+
 
 /**
  * Initial categories to populate the database.
@@ -131,6 +171,18 @@ const setupDatabase = async () => {
         // Create the products table (add this after categories table creation)
         await db.query(createProductsTable);
         if (verbose) console.log('Products table ready');
+        
+        // Create the roles table
+        await db.query(createRolesTable);
+        if (verbose) console.log('Roles table ready');
+        
+        // Insert default roles
+        await db.query(insertDefaultRoles);
+        if (verbose) console.log('Default roles inserted');
+        
+        // Create the users table
+        await db.query(createUsersTable);
+        if (verbose) console.log('Users table ready');
         
         // Insert initial categories
         for (const category of initialCategories) {

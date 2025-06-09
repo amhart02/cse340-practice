@@ -1,5 +1,4 @@
 <%- include('../partials/header') %>
-<main>
     <h1>Internal Server Error</h1>
     <p>Something went wrong on our server. Our team has been notified and is working to fix the issue.</p>
     <% if (NODE_ENV.includes('dev')) { %>
@@ -8,5 +7,4 @@
         <p>Stack trace:</p>
         <pre><%= stack %></pre>
   <%  } %>
-</main>
 <%- include('../partials/footer') %>
